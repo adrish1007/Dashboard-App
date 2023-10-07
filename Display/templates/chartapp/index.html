@@ -1,0 +1,495 @@
+{% extends "partials/base.html" %} {% block content %} {% load static %} <link
+rel="stylesheet" href="{% static "style.css" %}">
+
+<div class="wrapper">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="c1">
+      <h6>APPS & PAGES</h6>
+      <a href="#">
+        <i class="bi bi-envelope-fill"></i>
+        Email
+      </a>
+      <a href="#">
+        <i class="bi bi-chat"></i>
+        Chat
+      </a>
+      <a href="#">
+        <i class="bi bi-calendar-check-fill"></i>
+        Calendar
+      </a>
+      <a href="#">
+        <i class="bi bi-receipt"></i>
+        Invoice
+      </a>
+      <a href="#">
+        <i class="bi bi-people-fill"></i>
+        User
+      </a>
+      <a href="#">
+        <i class="bi bi-gear"></i>
+        Roles & Permissions
+      </a>
+      <a href="#">
+        <i class="bi bi-file-earmark-fill"></i>
+        Pages
+      </a>
+      <a href="#">
+        <i class="bi bi-lock-fill"></i>
+        Authentication
+      </a>
+      <a href="#">
+        <i class="bi bi-braces"></i>
+        Wizard Examples
+      </a>
+      <a href="#">
+        <i class="bi bi-square-fill"></i>
+        Dialog Examples
+      </a>
+    </div>
+    <div class="c2">
+      <h6>FORMS & TABLES</h6>
+      <a href="#"><i class="bi bi-toggle-off"></i>Form Elements</a>
+      <a href="#"><i class="bi bi-input-cursor-text"></i>Form Layouts</a>
+      <a href="#"><i class="bi bi-check-square-fill"></i>Form Validation</a>
+      <a href="#"><i class="bi bi-table"></i>Tables</a>
+    </div>
+
+    <!-- Add more sidebar links as needed -->
+  </div>
+
+  <div class="content">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-black bg-black">
+      <h2 class="navbar-brand" style="
+    text-align: center; width: 100%;">Salesforce</h2>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <!-- Add navigation links here -->
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <div class="jumbotron">
+        <h1 class="display-4" style = "text-align: center;
+    padding: 8px;">Dashboard</h1>
+      </div>
+
+      <div class="row" style="margin-left: auto;margin-right: auto;width: fit-content;">
+        <div class="col-md-6">
+          <h1 style="padding: 10px;">Graphs</h1>
+    <!-- Add a form if needed -->
+  </div>
+</div>
+<hr style="padding: 15px;"/>
+
+      <div class="row">
+        <!-- One chart per row -->
+        <div class="col-md-12">
+          <div class="card mb-4">
+            <div class="card-body">
+              <canvas
+                id="myChart3"
+              ></canvas>
+              <h5 style="
+    text-align: center;
+    padding: 8px;">Relevance v/s Sector</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Two charts in one row -->
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <canvas id="myChart4"></canvas>
+              <h5 style="
+    text-align: center;
+    padding: 8px;">Number of topic occurences</h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <canvas id="myChart6"></canvas>
+              <h5 style="
+    text-align: center;
+    padding: 8px;">Likelihood v/s Country</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- One chart per row -->
+        <div class="col-md-12">
+          <div class="card mb-4">
+            <div class="card-body">
+              <canvas id="myChart2"></canvas>
+              <h5 style="
+    text-align: center;
+    padding: 8px;">Intensity v/s Sector</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Two charts in one row -->
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <canvas id="myChart5"></canvas>
+              <h5 style="
+    text-align: center;
+    padding: 8px;">Intensity v/s Region</h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <canvas id="myChart1"></canvas>
+              <h5 style="
+    text-align: center;
+    padding: 8px;">Intensity v/s Time</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+     const ctx1 = document.getElementById("myChart1").getContext("2d");
+     const intensityData = [{% for item in q1 %} {{ item.intensity }} , {% endfor %}];
+
+     var IntChart = new Chart(ctx1, {
+       type: "bar",
+       data: {
+         labels: ['2016','2017', '2018', '2019', '2020', '2021', '2022'],
+         datasets: [
+           {
+             label: "Intensity",
+             data: intensityData,
+             barPercentage: 0.7,
+             offset: true,
+             backgroundColor: [
+             'rgba(255, 99, 132, 0.8)',
+             'rgba(255, 159, 64, 0.8)',
+             'rgba(255, 205, 86, 0.8)',
+             'rgba(75, 192, 192, 0.8)',
+             'rgba(54, 162, 235, 0.8)',
+             'rgba(153, 102, 255, 0.8)',
+             'rgba(201, 203, 207, 0.8)'
+              ],
+              borderColor: [
+             'rgb(255, 99, 132)',
+             'rgb(255, 159, 64)',
+             'rgb(255, 205, 86)',
+             'rgb(75, 192, 192)',
+             'rgb(54, 162, 235)',
+             'rgb(153, 102, 255)',
+             'rgb(201, 203, 207)'
+             ],
+             borderWidth: 1,
+             barThickness: 26,
+           },
+         ],
+       },
+       options: {
+         scales: {
+           y: {
+             beginAtZero: true,
+             grid : {
+              display: false
+             }
+           },
+           x : {
+            grid : {
+              display: false
+             }
+           }
+         },
+       },
+     });
+
+     const ctx2 = document.getElementById("myChart2").getContext("2d");;
+     const sector_data = [{% for item in q2 %} {{ item.intensity }} , {% endfor %}];
+
+     var RelChart = new Chart(ctx2, {
+       type: "pie",
+       data: {
+         labels: ["Energy", "Industry", "Retail", "Manufacturing", "Financial services"],
+         datasets: [
+           {
+             label: "Intensity",
+             data: sector_data,
+             backgroundColor: [
+             'rgba(255, 99, 132, 0.8)',
+             'rgba(255, 159, 64, 0.8)',
+             'rgba(255, 205, 86, 0.8)',
+             'rgba(75, 192, 192, 0.8)',
+             'rgba(54, 162, 235, 0.8)',
+             'rgba(153, 102, 255, 0.8)',
+             'rgba(201, 203, 207, 0.8)'
+              ],
+              borderColor: [
+             'rgb(255, 99, 132)',
+             'rgb(255, 159, 64)',
+             'rgb(255, 205, 86)',
+             'rgb(75, 192, 192)',
+             'rgb(54, 162, 235)',
+             'rgb(153, 102, 255)',
+             'rgb(201, 203, 207)'
+             ],
+             borderWidth: 1,
+             radius: 310
+           },
+         ],
+       },
+       options: {
+         scales: {
+           y: {
+             beginAtZero: true,
+             grid : {
+              display: false
+             }
+           },
+         },
+       },
+     });
+
+     const ctx3 = document.getElementById("myChart3").getContext("2d");;
+     const rel_data = [{% for item in q3 %} {{ item.relevance }} , {% endfor %}];
+
+     var RelChart = new Chart(ctx3, {
+       type: "bar",
+       data: {
+         labels: ["Energy", "Industry", "Retail", "Manufacturing", "Financial services", "Support services"],
+         datasets: [
+           {
+             label: "Relevance",
+             data: rel_data,
+             backgroundColor: [
+             'rgba(255, 99, 132, 0.8)',
+             'rgba(255, 159, 64, 0.8)',
+             'rgba(255, 205, 86, 0.8)',
+             'rgba(75, 192, 192, 0.8)',
+             'rgba(54, 162, 235, 0.8)',
+             'rgba(153, 102, 255, 0.8)',
+             'rgba(201, 203, 207, 0.8)'
+              ],
+              borderColor: [
+             'rgb(255, 99, 132)',
+             'rgb(255, 159, 64)',
+             'rgb(255, 205, 86)',
+             'rgb(75, 192, 192)',
+             'rgb(54, 162, 235)',
+             'rgb(153, 102, 255)',
+             'rgb(201, 203, 207)'
+             ],
+             borderWidth: 1,
+             barThickness: 46,
+           },
+         ],
+       },
+       options: {
+         scales: {
+           y: {
+             beginAtZero: true,
+            },
+            x : {
+              grid : {
+                display: false
+              }
+            },
+            r: {
+            grid: {
+              color: 'red'
+            },
+            pointLabels: {
+            color: 'red'
+            },
+            suggestedMax: 7,
+          }
+         },
+       },
+     });
+
+     const ctx4 = document.getElementById("myChart4").getContext("2d");
+     const topic_data = [{% for item in q4 %} '{{ item.topic }}' , {% endfor %}];
+     const topic_occurences = [{% for item in q4 %} {{ item.count }} , {% endfor %}];
+
+     var topicChart = new Chart(ctx4, {
+       type: "line",
+       data: {
+         labels: topic_data,
+         datasets: [
+           {
+             label: "Number of Topic Occurences",
+             data: topic_occurences,
+             backgroundColor: [
+             'rgba(255, 99, 132, 0.8)',
+             'rgba(255, 159, 64, 0.8)',
+             'rgba(255, 205, 86, 0.8)',
+             'rgba(75, 192, 192, 0.8)',
+             'rgba(54, 162, 235, 0.8)',
+             'rgba(153, 102, 255, 0.8)',
+             'rgba(201, 203, 207, 0.8)'
+              ],
+              borderColor: [
+             'rgb(255, 99, 132)',
+             'rgb(255, 159, 64)',
+             'rgb(255, 205, 86)',
+             'rgb(75, 192, 192)',
+             'rgb(54, 162, 235)',
+             'rgb(153, 102, 255)',
+             'rgb(201, 203, 207)'
+             ],
+             borderWidth: 1,
+             barThickness: 16,
+           },
+         ],
+       },
+       options: {
+         scales: {
+          x: {
+        display: true,
+        grid : {
+              display: false
+             }
+      },
+           y: {
+             beginAtZero: true,
+             grid : {
+              display: false
+             }
+           },
+           r: {
+            grid: {
+              color: 'red'
+            }
+          }
+         },
+       },
+     });
+
+     const ctx5 = document.getElementById("myChart5").getContext("2d");
+     const region_intensity = [{% for item in q5 %} {{ item.intensity }} , {% endfor %}];
+
+     var mapChart = new Chart(ctx5, {
+     type: 'line',
+     data: {
+     labels: [ "World", "South America", "Western Africa", "Western Asia", "Southern Africa", "Southern Asia", "Central Asia", "Eastern Europe", "Northern Africa", "Northern America"],
+     datasets: [{
+         label: 'Intensity',
+         data: region_intensity,
+         backgroundColor: [
+             'rgba(255, 99, 132, 0.8)',
+             'rgba(255, 159, 64, 0.8)',
+             'rgba(255, 205, 86, 0.8)',
+             'rgba(75, 192, 192, 0.8)',
+             'rgba(54, 162, 235, 0.8)',
+             'rgba(153, 102, 255, 0.8)',
+             'rgba(201, 203, 207, 0.8)'
+              ],
+              borderColor: [
+             'rgb(255, 99, 132)',
+             'rgb(255, 159, 64)',
+             'rgb(255, 205, 86)',
+             'rgb(75, 192, 192)',
+             'rgb(54, 162, 235)',
+             'rgb(153, 102, 255)',
+             'rgb(201, 203, 207)'
+             ],
+             borderWidth: 1,
+             barThickness: 46,
+       }]
+     },
+      options: {
+         scales: {
+          y: {
+           grid : {
+              display: false
+             }
+            },
+            x : {
+              grid : {
+              display: false
+             }
+            }
+          }
+        }
+    });
+
+    const ctx6 = document.getElementById("myChart6").getContext("2d");
+    const country_likelihood = [{% for item in q6 %} {{ item.likelihood }} , {% endfor %}];
+
+    var countryChart = new Chart(ctx6, {
+     type: 'line',
+     data: {
+     labels: ["Niger", "Libya", "United States of America", "Brazil", "Ukraine", "China", "Saudi Arabia", "India", "Japan", "Nigeria", "Lebanon", "Russia", "Egypt", "South Africa"],
+     datasets: [{
+         label: 'Likelihood',
+         data: country_likelihood,
+         backgroundColor: [
+             'rgba(255, 99, 132, 0.8)',
+             'rgba(255, 159, 64, 0.8)',
+             'rgba(255, 205, 86, 0.8)',
+             'rgba(75, 192, 192, 0.8)',
+             'rgba(54, 162, 235, 0.8)',
+             'rgba(153, 102, 255, 0.8)',
+             'rgba(201, 203, 207, 0.8)'
+              ],
+              borderColor: [
+             'rgb(255, 99, 132)',
+             'rgb(255, 159, 64)',
+             'rgb(255, 205, 86)',
+             'rgb(75, 192, 192)',
+             'rgb(54, 162, 235)',
+             'rgb(153, 102, 255)',
+             'rgb(201, 203, 207)'
+             ],
+             borderWidth: 1,
+             barThickness: 46,
+       }]
+     },
+      options: {
+         scales: {
+          y: {
+           grid : {
+              display: false
+             }
+            }, 
+            x : {
+              grid : {
+              display: false
+             }
+            }
+          }
+        }
+    });
+  </script>
+
+  {% endblock %}
+</div>
